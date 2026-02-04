@@ -1,14 +1,14 @@
 from typing import List
 from agents.modes import AgentMode
 from agents.provenance import ProvenanceRecord
+from agents.results import ResearchResult
+from agents.invariant_enforcement import assert_no_code_blocks
 
 class ResearchAgent:
     """
     Role A: Research Agent
 
-    This agent is strictly read-only and source-forward.
-    It may analyze, quote, and summarize external material,
-    but may not synthesize executable artifacts.
+    Strictly analytical. No synthesis, no execution.
     """
 
     MODE = AgentMode.RESEARCH
@@ -16,16 +16,23 @@ class ResearchAgent:
     def __init__(self):
         self.mode = self.MODE
 
-    def analyze(self, problem: str) -> dict:
+    def analyze(self, problem: str) -> ResearchResult:
         """
-        Analyze a problem and return research findings.
+        Outline of research process:
+        1. Restate and scope the problem
+        2. Identify relevant dimensions and approaches
+        3. Summarize known patterns (if any)
+        4. Record provenance for any external references
+        5. Explicitly state uncertainty or insufficiency
+        """
+        summaries: List[str] = []
+        provenance: List[ProvenanceRecord] = []
 
-        Returns a dict with:
-        - summaries: List[str]
-        - provenance: List[ProvenanceRecord]
-        """
-        # Placeholder: no external access yet
-        return {
-            "summaries": [],
-            "provenance": []  # must contain ProvenanceRecord only
-        }
+        # Placeholder: analytical summaries only
+        summaries.append(f"Problem scoped as: {problem}")
+        summaries.append("No external repositories accessed at this stage.")
+
+        # Enforce invariants
+        assert_no_code_blocks(summaries)
+
+        return ResearchResult(summaries=summaries, provenance=provenance)
